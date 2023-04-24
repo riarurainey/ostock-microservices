@@ -1,0 +1,12 @@
+<h3>Project from book Spring Microservices in Action</h3>
+Source code from book https://github.com/ihuaylupo/manning-smia
+
+Trying to migrate to newer versions </br>
+- Spring Boot 2.2.3.RELEASE => 3.0.6
+- Java 11 => 17
+- to be continued
+
+There will be a final project in the master branch, but in the process of writing I will merge the current progress.
+In this repository will be all the branches that correspond to a particular chapter that are related to the O-Stock License project.
+Some code will be changed according to my personal view of the rules of clean code.
+
