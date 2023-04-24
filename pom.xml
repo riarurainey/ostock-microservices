@@ -9,37 +9,21 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.optimagrowth</groupId>
-    <artifactId>license-service</artifactId>
+    <artifactId>ostock-parent-pom</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>License Service</name>
-    <description>License Service</description>
-    <properties>
-        <java.version>17</java.version>
-    </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+    <packaging>pom</packaging>
+    <name>OptimaGrowth Parent Pom</name>
+    <description>Parent Pom for the OptimaGrowth project</description>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <properties>
+
+    </properties>
+
+    <modules>
+        <module>licensing-service</module>
+    </modules>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
     </build>
 
 </project>

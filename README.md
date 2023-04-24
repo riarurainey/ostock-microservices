@@ -10,3 +10,5 @@ There will be a final project in the master branch, but in the process of writin
 In this repository will be all the branches that correspond to a particular chapter that are related to the O-Stock License project.
 Some code will be changed according to my personal view of the rules of clean code.
 
+<h4> Chapter 02 changes: </h4>
+- pom does not include an exclusion for junit-vintage-engine as this module is not included in the spring-boot-starter-test dependencies for Spring Boot (2.4 and up)
