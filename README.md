@@ -12,3 +12,6 @@ Some code will be changed according to my personal view of the rules of clean co
 
 <h4> Chapter 02 changes: </h4>
 - pom does not include an exclusion for junit-vintage-engine as this module is not included in the spring-boot-starter-test dependencies for Spring Boot (2.4 and up)
+
+<h4> Chapter 03 changes: </h4>
+- Moving localization beans to the LocalizationConfig class
