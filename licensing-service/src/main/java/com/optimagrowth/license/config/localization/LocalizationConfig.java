@@ -17,6 +17,7 @@ public class LocalizationConfig {
         localeResolver.setDefaultLocale(Locale.US);
         return localeResolver;
     }
+
     @Bean
     public ResourceBundleMessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();

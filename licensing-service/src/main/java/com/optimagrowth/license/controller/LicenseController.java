@@ -12,8 +12,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("v1/organization/{organizationId}/license")
 @RequiredArgsConstructor
+@RequestMapping("v1/organization/{organizationId}/license")
 public class LicenseController {
 
     private final LicenseService licenseService;
@@ -37,8 +37,8 @@ public class LicenseController {
             @PathVariable("organizationId")
             String organizationId,
             @RequestBody License request) {
-        return ResponseEntity.ok(licenseService.updateLicense(request,
-                organizationId));
+
+        return ResponseEntity.ok(licenseService.updateLicense(request, organizationId));
     }
 
     @PostMapping
@@ -46,16 +46,16 @@ public class LicenseController {
             @PathVariable("organizationId") String organizationId,
             @RequestBody License request,
             @RequestHeader(value = "Accept-Language", required = false) Locale locale) {
-        return ResponseEntity.ok(licenseService.createLicense(request,
-                organizationId, locale));
+
+        return ResponseEntity.ok(licenseService.createLicense(request, organizationId, locale));
     }
 
     @DeleteMapping("/{licenseId}")
     public ResponseEntity<String> deleteLicense(
             @PathVariable("organizationId") String organizationId,
             @PathVariable("licenseId") String licenseId) {
-        return ResponseEntity.ok(licenseService.deleteLicense(licenseId,
-                organizationId));
+
+        return ResponseEntity.ok(licenseService.deleteLicense(licenseId, organizationId));
     }
 }
 

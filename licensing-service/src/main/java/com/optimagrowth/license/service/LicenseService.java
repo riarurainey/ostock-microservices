@@ -29,7 +29,8 @@ public class LicenseService {
         String responseMessage = null;
         if (license != null) {
             license.setOrganizationId(organizationId);
-            responseMessage = String.format(messages.getMessage("license.create.message", null, locale), license);
+            responseMessage = String.format(
+                    messages.getMessage("license.create.message", null, locale), license);
         }
         return responseMessage;
     }
@@ -38,14 +39,16 @@ public class LicenseService {
         String responseMessage = null;
         if (license != null) {
             license.setOrganizationId(organizationId);
-            responseMessage = String.format(messages.getMessage("license.update.message", null, null), license);
+            responseMessage = String.format(
+                    messages.getMessage("license.update.message", null, null), license);
         }
         return responseMessage;
     }
 
     public String deleteLicense(String licenseId, String organizationId) {
         String responseMessage;
-        responseMessage = String.format(messages.getMessage("license.delete.message", null, null), licenseId, organizationId);
+        responseMessage = String.format(
+                messages.getMessage("license.delete.message", null, null), licenseId, organizationId);
         return responseMessage;
     }
 }
