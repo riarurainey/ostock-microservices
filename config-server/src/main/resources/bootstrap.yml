@@ -9,10 +9,6 @@ spring:
       server:
         native:
           search-locations: classpath:/config
-#        git:
-#          uri: https://github.com/riarurainey/config
-#          password: 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
-#          username: riarurainey@yandex.ru
 
 
 server:
