@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+
+
+  config:
+    activate:
+      on-profile: test
+
+
+management:
+  endpoints:
+    enabled-by-default: false
+    health:
+      enabled: true
+      show-details: always
+  health:
+    db:
+      enabled: false
+    diskspace:
+      enabled: true

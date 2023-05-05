@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: config-server
+  profiles:
+    active:
+      - native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config
+#        git:
+#          uri: https://github.com/riarurainey/config
+#          password: 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
+#          username: riarurainey@yandex.ru
+
+
+server:
+  port: 8071
+
+#Enable all Spring Boot Actuator endpoints.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
