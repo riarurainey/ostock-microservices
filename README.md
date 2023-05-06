@@ -21,10 +21,14 @@ Some code will be changed according to my personal view of the rules of clean co
 Change jdk version in Dockerfile - eclipse-temurin:17-jdk-jammy
 
 <h4> Chapter 05 changes: </h4>
+
 For config-server, licensing-service </br>
 - added dependency to enable bootstrap, which is disabled by default in spring cloud 2020.0.0
 (set spring.cloud.bootstrap.enabled=true or spring.config.use-legacy-processing=true or include the new spring-cloud-starter-bootstrap in your POM file)
 
-
 ExceptionController (licensing-service)-
-Change javax.servlet.http.HttpServletRequest to jakarta.servlet.http.HttpServletRequest; 
+- Change javax.servlet.http.HttpServletRequest to jakarta.servlet.http.HttpServletRequest;
+
+Added in licensing-service.properties:
+- spring.jpa.defer-datasource-initialization=true(to populate the database with test data via the data.sql script. By default, data.sql scripts are now run before Hibernate is initialized. )
+- spring.sql.init.mode=always (to initialize the database with a script schema.sql)
