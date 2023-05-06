@@ -3,12 +3,19 @@ spring:
     name: config-server
   profiles:
     active:
-      - native
+      - native, git
+
   cloud:
     config:
       server:
         native:
           search-locations: classpath:/config
+        git:
+          username: riarurainey@yandex.ru
+          password: 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
+          uri: https://github.com/riarurainey/config
+          default-label: main
+          searchPaths: licensingservice
 
 
 server:
