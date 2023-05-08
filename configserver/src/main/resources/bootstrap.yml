@@ -3,7 +3,9 @@ spring:
     name: config-server
   profiles:
     active:
-      - native, git
+      - vault
+      - git
+      - native
 
   cloud:
     config:
@@ -17,6 +19,13 @@ spring:
           default-label: main
           searchPaths: licensingservice
 
+        vault:
+          port: 8200
+          host: vault-server
+          authentication: token
+          token: vault-plaintext-root-token
+          skip-ssl-validation: true
+          kv-version: 2
 
 server:
   port: 8071

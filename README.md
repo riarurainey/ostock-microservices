@@ -4,7 +4,6 @@ Source code from book https://github.com/ihuaylupo/manning-smia
 Trying to migrate to newer versions </br>
 - Spring Boot 2.2.3.RELEASE => 3.0.6
 - Java 11 => 17
-- to be continued
 - Spring Cloud Hoxton.SR1 => 2022.0.2
 
 There will be a final project in the master branch, but in the process of writing I will merge the current progress.
@@ -31,4 +30,13 @@ ExceptionController (licensing-service)-
 
 Added in licensing-service.properties:
 - spring.jpa.defer-datasource-initialization=true(to populate the database with test data via the data.sql script. By default, data.sql scripts are now run before Hibernate is initialized. )
-- spring.sql.init.mode=always (to initialize the database with a script schema.sql)
+- spring.sql.init.mode=always (to initialize the database with a script init.sql)
+
+VAULT
+
+docker run --cap-add=IPC_LOCK -e 'VAULT_DEV_ROOT_TOKEN_ID=myroot' -e 'VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200' -p 8200:8200 --name=dev-vault vault
+curl -X "GET" "http://localhost:8071/licensing-service/default" -H "X-Config-Token: myroot"
+
+Docker
+$ mvn clean package dockerfile:build
+$ docker-compose -f docker/docker-compose.yml up
