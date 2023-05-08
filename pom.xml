@@ -21,6 +21,7 @@
 
     <modules>
         <module>licensing-service</module>
+        <module>configserver</module>
     </modules>
 
     <build>
