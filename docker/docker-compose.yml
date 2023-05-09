@@ -1,18 +1,5 @@
 version: '2.1'
 services:
-  vault-server:
-    image: vault:latest
-    ports:
-      - "8200:8200"
-    environment:
-      VAULT_ADDR: "http://0.0.0.0:8200"
-      VAULT_DEV_ROOT_TOKEN_ID: "vault-plaintext-root-token"
-    cap_add:
-      - IPC_LOCK
-    networks:
-      backend:
-        aliases:
-            - "vault-server"
   database:
     image: postgres:latest
     ports:
@@ -20,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
-      POSTGRES_DB: "ostock_dev"
+      POSTGRES_DB:       "ostock_dev"
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
       - ./data.sql:/docker-entrypoint-initdb.d/2-data.sql
@@ -33,7 +20,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
   configserver:
     image: ostock/configserver:0.0.1-SNAPSHOT
     ports:
@@ -44,6 +30,19 @@ services:
       backend:
         aliases:
           - "configserver"
+  eurekaserver:
+    image: ostock/eurekaserver:0.0.1-SNAPSHOT
+    ports:
+      - "8070:8070"
+    depends_on:
+      database:
+        condition: service_healthy
+      configserver:
+        condition: service_started
+    networks:
+      backend:
+        aliases:
+          - "eurekaserver"
 
   licensingservice:
     image: ostock/licensing-service:0.0.2-SNAPSHOT
