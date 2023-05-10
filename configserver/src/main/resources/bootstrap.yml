@@ -3,8 +3,6 @@ spring:
     name: config-server
   profiles:
     active:
-      - vault
-      - git
       - native
 
   cloud:
@@ -12,20 +10,6 @@ spring:
       server:
         native:
           search-locations: classpath:/config
-        git:
-          username: 
-          password: 
-          uri: https://github.com/riarurainey/config
-          default-label: main
-          searchPaths: licensingservice
-
-        vault:
-          port: 8200
-          host: vault-server
-          authentication: token
-          token: vault-plaintext-root-token
-          skip-ssl-validation: true
-          kv-version: 2
 
 server:
   port: 8071
