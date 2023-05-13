@@ -18,6 +18,7 @@ public class ErrorMessage {
         this.message = message;
         this.detail = detail;
     }
+
     public ErrorMessage(String message) {
         this(message, "", "");
     }
