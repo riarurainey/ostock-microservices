@@ -36,4 +36,14 @@ VAULT (Works locally but doesn't work via docker-compose)
 docker run --cap-add=IPC_LOCK -e 'VAULT_DEV_ROOT_TOKEN_ID=myroot' -e 'VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200' -p 8200:8200 --name=dev-vault vault
 curl -X "GET" "http://localhost:8071/licensing-service/default" -H "X-Config-Token: myroot"
 
+<h4> Chapter 06 </h4>
 @EnableDiscoveryClient no longer needed in LicenseServiceApplication.
+
+<h4>Chapter 07 </h4>
+
+https://resilience4j.readme.io/docs/circuitbreaker
+
+ringBufferSizeInClosedState and ringBufferSizeInHalfOpenState -> slidingWindow
+
+retry: maxRetryAttempts: -> maxAttempts
+

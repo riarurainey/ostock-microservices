@@ -7,12 +7,22 @@ import com.optimagrowth.license.repository.LicenseRepository;
 import com.optimagrowth.license.service.client.OrganizationDiscoveryClient;
 import com.optimagrowth.license.service.client.OrganizationFeignClient;
 import com.optimagrowth.license.service.client.OrganizationRestTemplateClient;
+import com.optimagrowth.license.utils.UserContextHolder;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.TimeoutException;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +31,10 @@ public class LicenseService {
     private final MessageSource messageSource;
     private final LicenseRepository repository;
     private final ServiceConfig config;
-    private final OrganizationDiscoveryClient organizationDiscoveryClient;
-    private final OrganizationFeignClient organizationFeignClient;
-    private final OrganizationRestTemplateClient organizationRestTemplateClient;
+    private final OrganizationDiscoveryClient discoveryClient;
+    private final OrganizationFeignClient feignClient;
+    private final OrganizationRestTemplateClient restTemplateClient;
+    private final Logger logger = LoggerFactory.getLogger(LicenseService.class);
 
     public License getLicense(String licenseId, String organizationId, String clientType) {
         License license = repository.findByOrganizationIdAndLicenseId(organizationId, licenseId);
@@ -48,17 +59,17 @@ public class LicenseService {
         switch (clientType) {
             case "feign" -> {
                 System.out.println("I am using the feign client");
-                organization = organizationFeignClient.getOrganization(organizationId);
+                organization = feignClient.getOrganization(organizationId);
             }
             case "rest" -> {
                 System.out.println("I am using the rest client");
-                organization = organizationRestTemplateClient.getOrganization(organizationId);
+                organization = restTemplateClient.getOrganization(organizationId);
             }
             case "discovery" -> {
                 System.out.println("I am using the discovery client");
-                organization = organizationDiscoveryClient.getOrganization(organizationId);
+                organization = discoveryClient.getOrganization(organizationId);
             }
-            default -> organization = organizationRestTemplateClient.getOrganization(organizationId);
+            default -> organization = restTemplateClient.getOrganization(organizationId);
         }
 
         return organization;
@@ -82,13 +93,51 @@ public class LicenseService {
         License license = new License();
         license.setLicenseId(licenseId);
         repository.delete(license);
-        responseMessage = String.format(messageSource.getMessage("license.delete.message", null, null), licenseId);
+        responseMessage = String.format(
+                messageSource.getMessage("license.delete.message", null, null), licenseId);
         return responseMessage;
 
     }
 
-    public List<License> getLicensesByOrganization(String organizationId) {
+    @CircuitBreaker(name = "licenseService", fallbackMethod = "buildFallbackLicenseList")
+    @RateLimiter(name = "licenseService", fallbackMethod = "buildFallbackLicenseList")
+    @Retry(name = "retryLicenseService", fallbackMethod = "buildFallbackLicenseList")
+    @Bulkhead(name = "bulkheadLicenseService", type = Bulkhead.Type.THREADPOOL, fallbackMethod = "buildFallbackLicenseList")
+    public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
+        logger.debug("getLicensesByOrganization Correlation id: {}",
+                UserContextHolder.getContext().getCorrelationId());
+        randomlyRunning();
         return repository.findByOrganizationId(organizationId);
+    }
+
+    private List<License> buildFallbackLicenseList(String organizationId, Throwable t) {
+        logger.debug("getLicensesByOrganization Correlation id: {}",
+                UserContextHolder.getContext().getCorrelationId());
+        List<License> fallbackList = new ArrayList<>();
+        License license = new License();
+        license.setLicenseId("0000-0000-0000");
+        license.setOrganizationId(organizationId);
+        license.setProductName("Sorry, no licensing information currently available");
+        fallbackList.add(license);
+        return fallbackList;
+    }
+
+    private void randomlyRunning() throws TimeoutException {
+        Random rand = new Random();
+        int randomNum = rand.nextInt((3 - 1) + 1) + 1;
+        if (randomNum == 3) {
+            sleep();
+        }
+    }
+
+    private void sleep() throws TimeoutException {
+        try {
+            System.out.println("Sleep");
+            Thread.sleep(5000);
+            throw new TimeoutException();
+        } catch (InterruptedException e) {
+            logger.error(e.getMessage());
+        }
     }
 
 }

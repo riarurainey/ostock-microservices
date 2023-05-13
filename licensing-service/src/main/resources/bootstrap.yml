@@ -1,9 +1,74 @@
 spring:
   application:
-    name:
-      licensing-service
+    name: licensing-service
   profiles:
     active: dev
   cloud:
     config:
       uri: http://configserver:8071
+
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.optimagrowth: DEBUG
+
+management.endpoints.enabled-by-default: false
+management.endpoint.health:
+  enabled: true
+  show-details: always
+
+management.health.circuitbreakers.enabled: true
+management.health.ratelimiters.enabled: true
+
+resilience4j.circuitbreaker:
+  instances:
+    licenseService:
+      sliding-window-size: 10
+      minimum-number-of-calls: 20
+      failure-rate-threshold: 50
+      registerHealthIndicator: true
+      waitDurationInOpenState: 1000ms
+      failureRateThreshold: 50
+      recordExceptions:
+        - org.springframework.web.client.HttpServerErrorException
+        - java.io.IOException
+        - java.util.concurrent.TimeoutException
+        - org.springframework.web.client.ResourceAccessException
+    organizationService:
+      sliding-window-size: 10
+      minimum-number-of-calls: 20
+      registerHealthIndicator: true
+      waitDurationInOpenState: 10s
+      failureRateThreshold: 60
+
+resilience4j.bulkhead:
+  instances:
+    bulkheadLicenseService:
+      maxWaitDuration: 2ms
+      maxConcurrentCalls: 20
+
+resilience4j.thread-pool-bulkhead:
+  instances:
+    bulkheadLicenseService:
+      maxThreadPoolSize: 1
+      coreThreadPoolSize: 1
+      queueCapacity: 1
+      keepAliveDuration: 20ms
+
+resilience4j.ratelimiter:
+  instances:
+    licenseService:
+      limitForPeriod: 5
+      limitRefreshPeriod: 5000
+      timeoutDuration: 10s
+
+
+resilience4j.retry:
+  instances:
+    retryLicensesService:
+      maxAttempts: 5
+      waitDuration: 10s
+      retry-exceptions:
+        - java.util.concurrent.TimeoutException
+
