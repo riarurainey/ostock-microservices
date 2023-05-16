@@ -37,7 +37,8 @@ docker run --cap-add=IPC_LOCK -e 'VAULT_DEV_ROOT_TOKEN_ID=myroot' -e 'VAULT_DEV_
 curl -X "GET" "http://localhost:8071/licensing-service/default" -H "X-Config-Token: myroot"
 
 <h4> Chapter 06 </h4>
-@EnableDiscoveryClient no longer needed in LicenseServiceApplication.
+The @EnableEurekaClient annotation is not required anymore. Simply adding spring-cloud-starter-netflix-eureka-client to dependencies will enable the client.
+If you want to disable it, set the property value of eureka.client.enabled to false.
 
 <h4>Chapter 07 </h4>
 
