@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native, git
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config
+        git:
+          username:
+          password:
+          uri:
+          default-label: main
+          searchPaths: licensingservice
+server:
+  port: 8071
