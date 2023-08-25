@@ -18,6 +18,7 @@
     <modules>
         <module>licensing-service</module>
         <module>configserver</module>
+        <module>eurekaserver</module>
 
     </modules>
 
