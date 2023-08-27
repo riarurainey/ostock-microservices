@@ -9,10 +9,10 @@ spring:
         native:
           search-locations: classpath:/config
         git:
-          username:
-          password:
-          uri:
+          username: riarurainey@yandex.ru
+          password: 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
+          uri: https://github.com/riarurainey/config
           default-label: main
-          searchPaths: licensingservice
+
 server:
   port: 8071
