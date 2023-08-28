@@ -9,8 +9,8 @@ spring:
         native:
           search-locations: classpath:/config
         git:
-          username: riarurainey@yandex.ru
-          password: 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
+          username: 
+          password: 
           uri: https://github.com/riarurainey/config
           default-label: main
 
