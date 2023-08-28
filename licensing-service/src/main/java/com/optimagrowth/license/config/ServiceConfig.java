@@ -1,4 +1,4 @@
-package com.optimagrowth.license.config.localization;
+package com.optimagrowth.license.config;
 
 
 import lombok.Getter;

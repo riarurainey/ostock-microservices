@@ -2,17 +2,11 @@ spring:
   application:
     name: config-server
   profiles:
-    active: native, git
+    active: native
   cloud:
     config:
       server:
         native:
           search-locations: classpath:/config
-        git:
-          username: 
-          password: 
-          uri: https://github.com/riarurainey/config
-          default-label: main
-
 server:
   port: 8071
