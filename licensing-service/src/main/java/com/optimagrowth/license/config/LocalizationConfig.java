@@ -1,4 +1,4 @@
-package com.optimagrowth.license.config.localization;
+package com.optimagrowth.license.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
