@@ -28,7 +28,7 @@ public class OrganizationController {
         return ResponseEntity.ok(service.create(organization));
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/{organizationId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteOrganization(@RequestBody Organization organization) {
         service.delete(organization);
