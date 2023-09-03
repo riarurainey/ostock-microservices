@@ -8,19 +8,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(value = "v1/organization")
+@RequiredArgsConstructor
 public class OrganizationController {
-
     private final OrganizationService service;
 
-    @GetMapping(value = "/{organizationId}")
+    @GetMapping("/{organizationId}")
     public ResponseEntity<Organization> getOrganization(@PathVariable("organizationId") String organizationId) {
         return ResponseEntity.ok(service.findById(organizationId));
     }
 
-    @PutMapping(value = "/{organizationId}")
-    public void updateOrganization(@PathVariable("organizationId") String id, @RequestBody Organization organization) {
+    @PutMapping()
+    public void updateOrganization(@RequestBody Organization organization) {
         service.update(organization);
     }
 
@@ -29,10 +28,9 @@ public class OrganizationController {
         return ResponseEntity.ok(service.create(organization));
     }
 
-    @DeleteMapping(value = "/{organizationId}")
+    @DeleteMapping("/{organizationId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteOrganization(@PathVariable("id") String id, @RequestBody Organization organization) {
+    public void deleteOrganization(@RequestBody Organization organization) {
         service.delete(organization);
     }
-
 }
