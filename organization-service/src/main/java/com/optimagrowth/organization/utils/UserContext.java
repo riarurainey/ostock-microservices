@@ -1,5 +1,6 @@
 package com.optimagrowth.organization.utils;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,6 +25,13 @@ public class UserContext {
     public static String getUserId() { return userId.get(); }
     public static void setUserId(String aUser) {userId.set(aUser);}
 
-    public static String getOrgId() { return orgId.get(); }
-    public static void setOrgId(String aOrg) {orgId.set(aOrg);}
+    public static String getOrganizationId() { return orgId.get(); }
+    public static void setOrganizationId(String aOrg) {orgId.set(aOrg);}
+
+    public static HttpHeaders getHttpHeaders(){
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(CORRELATION_ID, getCorrelationId());
+
+        return httpHeaders;
+    }
 }

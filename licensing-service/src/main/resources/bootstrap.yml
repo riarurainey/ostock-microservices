@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: licensing-service
   profiles:
@@ -12,12 +14,6 @@ logging:
     com.netflix: WARN
     org.springframework.web: WARN
     com.optimagrowth: DEBUG
-
-management.endpoints.enabled-by-default: false
-management.endpoint.health:
-  enabled: true
-  show-details: always
-
 
 resilience4j.circuitbreaker:
   instances:
@@ -39,6 +35,13 @@ resilience4j.circuitbreaker:
       waitDurationInOpenState: 20s
       failureRateThreshold: 60
 
+resilience4j.ratelimiter:
+  instances:
+    licenseService:
+      limitForPeriod: 5
+      limitRefreshPeriod: 5000
+      timeoutDuration: 1000ms
+
 resilience4j.retry:
   instances:
     retryLicenseService:
@@ -46,13 +49,6 @@ resilience4j.retry:
       waitDuration: 10000
       retry-exceptions:
         - java.util.concurrent.TimeoutException
-
-resilience4j.ratelimiter:
-  instances:
-    licenseService:
-      limitForPeriod: 5
-      limitRefreshPeriod: 5000
-      timeoutDuration: 1000ms
 
 resilience4j.bulkhead:
   instances:

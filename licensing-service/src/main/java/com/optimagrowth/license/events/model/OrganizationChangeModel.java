@@ -1,4 +1,4 @@
-package com.optimagrowth.organization.events.model;
+package com.optimagrowth.license.events.model;
 
 import lombok.*;
 
@@ -7,8 +7,11 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 public class OrganizationChangeModel {
+
     private String type;
     private String action;
     private String organizationId;
     private String correlationId;
+
+
 }
